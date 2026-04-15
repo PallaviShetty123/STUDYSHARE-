@@ -1,0 +1,366 @@
+/* Subject Cards - Row Style */
+.subjects-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 30px 20px;
+    margin: 30px auto 0;
+    width: 100%;
+    max-width: 1160px;
+}
+
+.subject-card {
+    width: 100%;
+    border-radius: 28px;
+    padding: 24px 28px;
+    cursor: pointer;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+    position: relative;
+    overflow: hidden;
+    min-height: 140px;
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    backdrop-filter: blur(18px);
+}
+
+.subject-card::before {
+    content: '';
+    position: absolute;
+    width: 180%;
+    height: 180%;
+    top: -40%;
+    left: -20%;
+    background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.18), transparent 35%);
+    pointer-events: none;
+    transform: rotate(15deg);
+}
+
+.subject-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.2);
+}
+
+.subject-card:active {
+    transform: translateY(-2px);
+}
+
+.subject-card-content {
+    position: relative;
+    z-index: 2;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.subject-card-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.15;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.18);
+}
+
+.subject-card-icon {
+    width: 72px;
+    height: 72px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    opacity: 0.98;
+    flex-shrink: 0;
+}
+
+.subject-card-notes {
+    font-size: 0.95rem;
+    opacity: 0.92;
+    margin: 0;
+    padding: 0;
+}
+
+.subject-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-top: 6px;
+    opacity: 0.93;
+    font-weight: 500;
+}
+
+.subject-card-meta span {
+    background: rgba(255,255,255,0.18);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+}
+
+.subject-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.subject-pill {
+    font-size: 0.85rem;
+    background: rgba(255,255,255,0.22);
+    color: white;
+    border-radius: 999px;
+    padding: 10px 14px;
+    white-space: nowrap;
+}
+
+.subject-card-bottom {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.subject-action-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 0.85rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.subject-action-btn.primary {
+    background: rgba(255,255,255,0.22);
+    color: white;
+}
+
+.subject-action-btn.secondary {
+    background: rgba(255,255,255,0.14);
+    color: white;
+}
+
+.subject-action-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Subject Color Variations */
+.subject-card.red { background: linear-gradient(135deg, #FF6B6B 0%, #FF8E72 100%); }
+.subject-card.teal { background: linear-gradient(135deg, #4ECDC4 0%, #44B3AA 100%); }
+.subject-card.blue { background: linear-gradient(135deg, #45B7D1 0%, #2E8FA9 100%); }
+.subject-card.orange { background: linear-gradient(135deg, #FFA07A 0%, #FF8C69 100%); }
+.subject-card.green { background: linear-gradient(135deg, #98D8C8 0%, #6FC7B9 100%); }
+.subject-card.yellow { background: linear-gradient(135deg, #F7DC6F 0%, #F5B041 100%); }
+.subject-card.brown { background: linear-gradient(135deg, #DDA15E 0%, #BC6C25 100%); }
+.subject-card.purple { background: linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%); }
+
+/* Notes View Layout */
+.subject-notes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.subject-header {
+    padding: 40px;
+    border-radius: 15px;
+    color: white;
+    margin-bottom: 40px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.subject-header h1 {
+    margin: 0;
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.subject-header p {
+    margin: 5px 0;
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.note-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.note-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-color: #3498db;
+}
+
+.note-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.note-lecturer {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+}
+
+.note-description {
+    font-size: 14px;
+    color: #34495e;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    max-height: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.note-date {
+    font-size: 12px;
+    color: #95a5a6;
+    margin-bottom: 15px;
+}
+
+.note-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.note-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.note-download {
+    background: #3498db;
+    color: white;
+}
+
+.note-download:hover {
+    background: #2980b9;
+    transform: scale(1.05);
+}
+
+.note-like {
+    background: #ecf0f1;
+    color: #e74c3c;
+}
+
+.note-like:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .subjects-container {
+        gap: 18px;
+        padding: 20px 10px;
+    }
+
+    .subject-card {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+
+    .subject-card-actions {
+        align-items: flex-start;
+    }
+}
+
+/* Floating Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.subject-card {
+    animation: fadeInUp 0.6s ease both;
+}
+
+.subject-card:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+.subject-card:nth-child(3) {
+    animation-delay: 0.16s;
+}
+
+.subject-card:nth-child(4) {
+    animation-delay: 0.24s;
+}
+
+.subject-card:nth-child(5) {
+    animation-delay: 0.32s;
+}
+
+.subject-card:nth-child(6) {
+    animation-delay: 0.4s;
+}
+
+.subject-card:nth-child(7) {
+    animation-delay: 0.48s;
+}
+
+.subject-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    animation: none;
+}
+
+.subject-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.subject-card:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.subject-card:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.subject-card:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+.subject-card:nth-child(6) {
+    animation-delay: 0.5s;
+}
+
+.subject-card:nth-child(7) {
+    animation-delay: 0.6s;
+}
+
+.subject-card:hover {
+    animation: none;
+}

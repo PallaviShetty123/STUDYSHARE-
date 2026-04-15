@@ -3,7 +3,7 @@ require_once __DIR__ . '/../common/db.php';
 require_once __DIR__ . '/../common/functions.php';
 
 if (isStudentLoggedIn()) {
-    redirect('dashboard.php');
+    redirect('../user/dashboard.php');
 }
 
 $errors = [];
@@ -28,12 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('SELECT * FROM students WHERE roll_no = ? AND dob = ?');
         $stmt->execute([$roll_no, $dob]);
         $student = $stmt->fetch();
-        
+
         if (!$student) {
             $errors[] = 'Invalid roll number or date of birth.';
         } else {
             setStudentSession($student);
-            redirect('dashboard.php');
+            redirect('../user/dashboard.php');
         }
     }
 }
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="login-box">
             <h1>StudyShare</h1>
             <p class="subtitle">Student Portal</p>
-            
+
             <?php if ($errors): ?>
                 <div class="alert alert-error">
                     <?php foreach ($errors as $error): ?>
@@ -75,7 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
 
             <div class="footer-link">
-                <p>Are you an admin? <a href="../admin/login.php">Admin Portal</a></p>
+                <p>Need another portal? <a href="../lectures">Lecturer</a> · <a href="../admin">Admin</a></p>
+                <p>Already have an account? Use your roll number and date of birth.</p>
             </div>
         </div>
     </div>

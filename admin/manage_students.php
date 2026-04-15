@@ -29,7 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_FILES['csv_file']['name'])
                     $dob = trim($data[2]);
                     $department = trim($data[3]);
                     $semester = intval(trim($data[4]));
-                    
+
+                    if (preg_match('/^(\d{2})-(\d{2})-(\d{4})$/', $dob, $matches)) {
+                        $dob = sprintf('%s-%s-%s', $matches[3], $matches[2], $matches[1]);
+                    }
+
                     if (!empty($roll_no) && !empty($name) && !empty($dob)) {
                         $stmt = $pdo->prepare('INSERT IGNORE INTO students (roll_no, name, dob, department, semester) VALUES (?, ?, ?, ?, ?)');
                         if ($stmt->execute([$roll_no, $name, $dob, $department, $semester])) {
@@ -109,7 +113,7 @@ $students = $pdo->query('SELECT * FROM students ORDER BY roll_no')->fetchAll();
 
             <section class="import-section">
                 <h2>Import Student Dataset</h2>
-                <p>Upload a CSV file with student data. Format: roll_no, name, dob (YYYY-MM-DD), department, semester</p>
+                <p>Upload a CSV file with student data. Format: roll_no, name, dob (DD-MM-YYYY or YYYY-MM-DD), department, semester</p>
                 
                 <form method="POST" enctype="multipart/form-data" class="import-form">
                     <div class="form-group">
@@ -141,7 +145,7 @@ $students = $pdo->query('SELECT * FROM students ORDER BY roll_no')->fetchAll();
                                     <td><?= sanitize($student['name']) ?></td>
                                     <td><?= sanitize($student['department']) ?></td>
                                     <td><?= $student['semester'] ?></td>
-                                    <td><?= $student['dob'] ?></td>
+                                    <td><?= date('d-m-Y', strtotime($student['dob'])) ?></td>
                                     <td>
                                         <a href="delete_student.php?roll_no=<?= urlencode($student['roll_no']) ?>" class="btn-small btn-danger" onclick="return confirm('Delete this student? This action cannot be undone.')">Delete</a>
                                     </td>

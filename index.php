@@ -157,8 +157,9 @@ if (isAdminLoggedIn()) {
         </div>
 
         <div class="button-group">
-            <a href="user/login.php" class="btn btn-primary">Student Login</a>
-            <a href="admin/login.php" class="btn btn-secondary">Admin Portal</a>
+            <a href="student/" class="btn btn-primary">Student Portal</a>
+            <a href="lectures/" class="btn btn-secondary">Lecturer Portal</a>
+            <a href="admin/" class="btn btn-secondary">Admin Portal</a>
         </div>
     </div>
 </body>

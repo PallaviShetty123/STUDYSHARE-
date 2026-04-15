@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_FILES['profile_image']['na
                         </div>
                         <div class="detail-item">
                             <label>Date of Birth</label>
-                            <p><?= $student['dob'] ?></p>
+                            <p><?= date('d-m-Y', strtotime($student['dob'])) ?></p>
                         </div>
                         <div class="detail-item">
                             <label>Department</label>

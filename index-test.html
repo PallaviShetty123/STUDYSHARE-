@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyShare - Test Portal Access</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1000px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .portals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .portal-card {
+            border: 2px solid #ecf0f1;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .portal-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .portal-card h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .portal-card .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .credentials {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .credential-item {
+            margin: 8px 0;
+            padding: 8px;
+            background: white;
+            border-left: 3px solid #667eea;
+            padding-left: 12px;
+        }
+
+        .label {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .tips {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .tips h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .tips ul {
+            margin-left: 20px;
+            color: #856404;
+        }
+
+        .tips li {
+            margin: 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .portals-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .features {
+            background: #e8f4f8;
+            border: 1px solid #b8dce6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .features h3 {
+            color: #0c5bab;
+            margin-bottom: 15px;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .feature-item {
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #0c5bab;
+            padding-left: 15px;
+        }
+
+        .feature-item strong {
+            color: #0c5bab;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 StudyShare Portal</h1>
+            <p>Complete Learning Management System for Students & Lecturers</p>
+        </div>
+
+        <div class="content">
+            <h2 style="color: #2c3e50; margin-bottom: 20px;">🚀 Quick Start Guide</h2>
+
+            <div class="portals-grid">
+                <!-- Student Portal -->
+                <div class="portal-card">
+                    <div class="icon">👨‍🎓</div>
+                    <h2>Student Portal</h2>
+                    <p style="color: #7f8c8d; margin-bottom: 15px;">Browse and download notes for your subjects</p>
+                    
+                    <div class="credentials">
+                        <div class="credential-item">
+                            <span class="label">Roll No:</span> BCA25060
+                        </div>
+                        <div class="credential-item">
+                            <span class="label">DOB:</span> 25-10-2007
+                        </div>
+                    </div>
+
+                    <p style="color: #7f8c8d; font-size: 12px;">
+                        Use any student roll number from dataset with matching date of birth
+                    </p>
+
+                    <a href="/STUDYSHARE-/user/login.php" class="btn">Go to Student Portal</a>
+                </div>
+
+                <!-- Lecturer Portal -->
+                <div class="portal-card">
+                    <div class="icon">👨‍🏫</div>
+                    <h2>Lecturer Portal</h2>
+                    <p style="color: #7f8c8d; margin-bottom: 15px;">Upload and manage course materials</p>
+                    
+                    <div class="credentials">
+                        <div class="credential-item">
+                            <span class="label">Username:</span> lecturer
+                        </div>
+                        <div class="credential-item">
+                            <span class="label">Password:</span> lecturer123
+                        </div>
+                    </div>
+
+                    <p style="color: #7f8c8d; font-size: 12px;">
+                        Upload PDF notes for any subject to share with students
+                    </p>
+
+                    <a href="/STUDYSHARE-/lecture/login.php" class="btn">Go to Lecturer Portal</a>
+                </div>
+
+                <!-- Admin Portal -->
+                <div class="portal-card">
+                    <div class="icon">🛡️</div>
+                    <h2>Admin Panel</h2>
+                    <p style="color: #7f8c8d; margin-bottom: 15px;">Manage students and system settings</p>
+                    
+                    <div class="credentials">
+                        <div class="credential-item">
+                            <span class="label">Username:</span> admin
+                        </div>
+                        <div class="credential-item">
+                            <span class="label">Password:</span> admin123
+                        </div>
+                    </div>
+
+                    <p style="color: #7f8c8d; font-size: 12px;">
+                        Existing admin panel for system administration
+                    </p>
+
+                    <a href="/STUDYSHARE-/admin/login.php" class="btn">Go to Admin Panel</a>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="features">
+                <h3>✨ Key Features</h3>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <strong>📚 Compulsory Subjects</strong><br>
+                        6 subjects for all students
+                    </div>
+                    <div class="feature-item">
+                        <strong>🌐 Language Options</strong><br>
+                        Hindi or Kannada based on roll number
+                    </div>
+                    <div class="feature-item">
+                        <strong>🎨 Colorful Dashboard</strong><br>
+                        PowerPoint-style subject cards
+                    </div>
+                    <div class="feature-item">
+                        <strong>📄 PDF Management</strong><br>
+                        Upload, download, organize notes
+                    </div>
+                    <div class="feature-item">
+                        <strong>❤️ Like & Track</strong><br>
+                        Like notes and track engagement
+                    </div>
+                    <div class="feature-item">
+                        <strong>🔐 Role-Based Access</strong><br>
+                        Student, Lecturer, Admin roles
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Section -->
+            <div class="tips">
+                <h3>💡 Testing Tips</h3>
+                <ul>
+                    <li><strong>Test as Student:</strong> Login with roll number and DOB from the provided student list</li>
+                    <li><strong>Test as Lecturer:</strong> Upload a PDF file for any subject to see it appear in student portal</li>
+                    <li><strong>Language Assignment:</strong> Check BCA25060 has Hindi, BCA25001 has Kannada</li>
+                    <li><strong>Subject Cards:</strong> All subject cards have unique gradient colors and show note counts</li>
+                    <li><strong>Download:</strong> Try downloading a note from the subject page</li>
+                    <li><strong>Like Feature:</strong> Click heart to like/unlike notes</li>
+                </ul>
+            </div>
+
+            <!-- Subject Info -->
+            <div style="background: #f0f7ff; border: 1px solid #d3e8ff; border-radius: 8px; padding: 20px; margin-top: 30px;">
+                <h3 style="color: #0c5bab; margin-bottom: 15px;">📖 Subjects Available</h3>
+                <p style="color: #555; margin-bottom: 15px;"><strong>Compulsory for All:</strong></p>
+                <ul style="margin-left: 20px; margin-bottom: 15px; color: #555;">
+                    <li>Object Oriented Programming using Java 🔴</li>
+                    <li>English 🟢</li>
+                    <li>Data Structure Theory 🔵</li>
+                    <li>Computing and Mathematics for AI 🟠</li>
+                    <li>Computational Mathematics 🟢</li>
+                    <li>Environmental Studies 🟡</li>
+                </ul>
+                <p style="color: #555;"><strong>Language-Based:</strong></p>
+                <ul style="margin-left: 20px; color: #555;">
+                    <li><strong>Hindi:</strong> BCA25017, BCA25051, BCA25040, BCA25057, BCA25060, BCA25029, BCA25023</li>
+                    <li><strong>Kannada:</strong> All other students</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

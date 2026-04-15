@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
 
             <div class="footer-link">
-                <p>Looking for student login? <a href="../user/login.php">Student Portal</a></p>
+                <p>Looking for student login? <a href="../student/">Student Portal</a></p>
             </div>
         </div>
     </div>
