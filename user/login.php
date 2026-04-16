@@ -14,12 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($roll_no) || empty($dob)) {
         $errors[] = 'Please enter roll number and date of birth.';
     } else {
+        $dob = str_replace(['/', '.'], '-', $dob);
+
         if (preg_match('/^(\d{2})-(\d{2})-(\d{4})$/', $dob, $matches)) {
             $dob = sprintf('%s-%s-%s', $matches[3], $matches[2], $matches[1]);
         } elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $dob, $matches)) {
             $dob = $dob;
         } else {
-            $errors[] = 'Date of birth must be in DD-MM-YYYY format.';
+            $errors[] = 'Date of birth must be in DD-MM-YYYY format (e.g. 29-05-2007).';
         }
     }
 
@@ -63,12 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="POST" class="login-form">
                 <div class="form-group">
                     <label for="roll_no">Roll Number</label>
-                    <input type="text" id="roll_no" name="roll_no" required placeholder="Enter your roll number">
+                    <input type="text" id="roll_no" name="roll_no" required placeholder="Enter your roll number" value="<?= sanitize($_POST['roll_no'] ?? '') ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="dob">Date of Birth</label>
-                    <input type="text" id="dob" name="dob" required placeholder="DD-MM-YYYY" pattern="\d{2}-\d{2}-\d{4}" title="DD-MM-YYYY">
+                    <input type="text" id="dob" name="dob" required placeholder="DD-MM-YYYY" pattern="\d{2}-\d{2}-\d{4}" title="DD-MM-YYYY" value="<?= sanitize($_POST['dob'] ?? '') ?>">
                 </div>
 
                 <button type="submit" class="btn-login">Login</button>

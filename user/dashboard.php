@@ -105,65 +105,128 @@ function time_ago($timestamp) {
         <main class="student-main">
             <!-- Header -->
             <div class="student-header">
-                <h1>Welcome, <?= sanitize($student['name']) ?>! 👋</h1>
-                <p>Your learning journey starts here</p>
+                <div class="header-content">
+                    <div class="header-text">
+                        <h1>Welcome back, <?= sanitize($student['name']) ?>! 👋</h1>
+                        <p>Ready to continue your learning journey?</p>
+                    </div>
+                    <div class="header-actions">
+                        <div class="search-container">
+                            <input type="text" id="subject-search" placeholder="Search subjects..." class="search-input">
+                            <button class="search-btn">🔍</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Quick Stats -->
             <div class="stats-container">
                 <div class="stat-card">
-                    <span class="stat-icon">📚</span>
+                    <div class="stat-icon-wrapper">
+                        <span class="stat-icon">📚</span>
+                    </div>
                     <div class="stat-content">
-                        <p class="stat-label">Subjects</p>
                         <p class="stat-value"><?= count($student_subjects) ?></p>
+                        <p class="stat-label">Active Subjects</p>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-icon">📄</span>
+                    <div class="stat-icon-wrapper">
+                        <span class="stat-icon">📄</span>
+                    </div>
                     <div class="stat-content">
-                        <p class="stat-label">Available Notes</p>
                         <p class="stat-value"><?= array_sum($subject_notes_count) ?></p>
+                        <p class="stat-label">Available Notes</p>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-icon">🌐</span>
-                    <div class="stat-content">
-                        <p class="stat-label">Language</p>
-                        <p class="stat-value"><?= isHindiStudent($student['roll_no']) ? 'Hindi' : 'Kannada' ?></p>
+                    <div class="stat-icon-wrapper">
+                        <span class="stat-icon">🌐</span>
                     </div>
+                    <div class="stat-content">
+                        <p class="stat-value"><?= isHindiStudent($student['roll_no']) ? 'Hindi' : 'Kannada' ?></p>
+                        <p class="stat-label">Language Subject</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper">
+                        <span class="stat-icon">🎯</span>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-value">Semester <?= $student['semester'] ?></p>
+                        <p class="stat-label">Current Semester</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="actions-grid">
+                    <a href="notes.php" class="action-card">
+                        <span class="action-icon">🔍</span>
+                        <span class="action-text">Browse All Notes</span>
+                    </a>
+                    <a href="profile.php" class="action-card">
+                        <span class="action-icon">👤</span>
+                        <span class="action-text">Update Profile</span>
+                    </a>
+                    <a href="#" class="action-card">
+                        <span class="action-icon">📊</span>
+                        <span class="action-text">View Progress</span>
+                    </a>
+                    <a href="#" class="action-card">
+                        <span class="action-icon">📅</span>
+                        <span class="action-text">Academic Calendar</span>
+                    </a>
                 </div>
             </div>
 
             <!-- Subjects Section -->
             <section class="subjects-section">
-                <h2 class="section-title">📖 Your Subjects</h2>
-                <p class="section-subtitle">Click on any subject to view notes and materials</p>
+                <div class="section-header">
+                    <h2 class="section-title">📖 Your Subjects</h2>
+                    <p class="section-subtitle">Explore your curriculum and access study materials</p>
+                </div>
+                
+                <div class="subjects-filters">
+                    <button class="filter-btn active" data-filter="all">All Subjects</button>
+                    <button class="filter-btn" data-filter="compulsory">Compulsory</button>
+                    <button class="filter-btn" data-filter="language">Language</button>
+                </div>
                 
                 <div class="subjects-container">
                     <?php foreach ($student_subjects as $subject): ?>
-                        <a href="subject-notes.php?subject_id=<?= $subject['id'] ?>" 
-                           class="subject-card subject-row-card"
-                           style="background: linear-gradient(135deg, <?= $subject['color_code'] ?> 0%, <?= adjustBrightness($subject['color_code'], -20) ?> 100%);">
-                            <div class="subject-card-icon">📘</div>
-                            <div class="subject-card-content">
-                                <div class="subject-card-title"><?= sanitize($subject['subject_name']) ?></div>
-                                <div class="subject-card-notes">
-                                    <?= $subject_notes_count[$subject['id']] ?? 0 ?> notes available
+                        <div class="subject-card-wrapper" data-subject-type="<?= $subject['language_specific'] ? 'language' : 'compulsory' ?>">
+                            <a href="subject-notes.php?subject_id=<?= $subject['id'] ?>" class="subject-card">
+                                <div class="subject-card-header" style="background: linear-gradient(135deg, <?= $subject['color_code'] ?> 0%, <?= adjustBrightness($subject['color_code'], -15) ?> 100%);">
+                                    <div class="subject-icon">📘</div>
+                                    <div class="subject-type-badge">
+                                        <?= $subject['language_specific'] ? 'Language' : 'Core' ?>
+                                    </div>
                                 </div>
-                                <div class="subject-card-meta">
-                                    <span><?= sanitize($subject['subject_code'] ?? 'CODE') ?></span>
-                                    <span><?= isHindiStudent($student['roll_no']) ? 'Language: ' . getStudentLanguage($student['roll_no']) : 'Language: ' . getStudentLanguage($student['roll_no']) ?></span>
+                                <div class="subject-card-body">
+                                    <h3 class="subject-title"><?= sanitize($subject['subject_name']) ?></h3>
+                                    <p class="subject-code"><?= sanitize($subject['subject_code'] ?? 'CODE') ?></p>
+                                    <div class="subject-stats">
+                                        <span class="stat-item">
+                                            <span class="stat-icon">📄</span>
+                                            <?= $subject_notes_count[$subject['id']] ?? 0 ?> notes
+                                        </span>
+                                        <span class="stat-item">
+                                            <span class="stat-icon">👨‍🏫</span>
+                                            Faculty Assigned
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="subject-card-actions">
-                                <span class="subject-pill">Year <?= sanitize($student['semester']) ?> • Semester <?= sanitize($student['semester']) ?></span>
-                                <span class="subject-pill">Department: <?= sanitize($student['department']) ?></span>
-                                <div class="subject-card-bottom">
-                                    <button type="button" class="subject-action-btn primary">Attendance</button>
-                                    <button type="button" class="subject-action-btn secondary">Marks</button>
+                                <div class="subject-card-footer">
+                                    <div class="subject-actions">
+                                        <button class="action-btn primary">View Notes</button>
+                                        <button class="action-btn secondary">Resources</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     <?php endforeach; ?>
                 </div>
             </section>
@@ -215,5 +278,53 @@ function time_ago($timestamp) {
     </div>
 
     <script src="../assets/js/script.js"></script>
+    <script>
+        // Search functionality
+        document.getElementById('subject-search').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const subjectCards = document.querySelectorAll('.subject-card-wrapper');
+            
+            subjectCards.forEach(card => {
+                const title = card.querySelector('.subject-title').textContent.toLowerCase();
+                const code = card.querySelector('.subject-code').textContent.toLowerCase();
+                const isVisible = title.includes(searchTerm) || code.includes(searchTerm);
+                card.style.display = isVisible ? 'block' : 'none';
+            });
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filter = this.dataset.filter;
+                const subjectCards = document.querySelectorAll('.subject-card-wrapper');
+                
+                subjectCards.forEach(card => {
+                    const type = card.dataset.subjectType;
+                    if (filter === 'all' || type === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Add hover effects
+        document.querySelectorAll('.subject-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+            });
+        });
+    </script>
 </body>
 </html>
