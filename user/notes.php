@@ -10,17 +10,28 @@ $pdo = db();
 $subject_filter = sanitize($_GET['subject'] ?? '');
 
 // Build query
+$query = 'SELECT n.*, s.subject_name, s.subject_code, l.name AS lecturer_name
+          FROM notes n
+          LEFT JOIN subjects s ON n.subject_id = s.id
+          LEFT JOIN lecturers l ON n.lecturer_id = l.id
+          WHERE n.department = ? AND n.semester = ?';
+$params = [$student['department'], $student['semester']];
+
 if ($subject_filter) {
-    $stmt = $pdo->prepare('SELECT * FROM notes WHERE department = ? AND semester = ? AND subject = ? ORDER BY upload_date DESC');
-    $stmt->execute([$student['department'], $student['semester'], $subject_filter]);
-} else {
-    $stmt = $pdo->prepare('SELECT * FROM notes WHERE department = ? AND semester = ? ORDER BY upload_date DESC');
-    $stmt->execute([$student['department'], $student['semester']]);
+    $query .= ' AND s.subject_name = ?';
+    $params[] = $subject_filter;
 }
+
+$query .= ' ORDER BY n.upload_date DESC';
+$stmt = $pdo->prepare($query);
+$stmt->execute($params);
 $notes = $stmt->fetchAll();
 
 // Get unique subjects
-$stmt = $pdo->prepare('SELECT DISTINCT subject FROM notes WHERE department = ? AND semester = ? ORDER BY subject');
+$stmt = $pdo->prepare('SELECT DISTINCT s.subject_name AS subject FROM notes n
+                       LEFT JOIN subjects s ON n.subject_id = s.id
+                       WHERE n.department = ? AND n.semester = ?
+                       ORDER BY s.subject_name');
 $stmt->execute([$student['department'], $student['semester']]);
 $subjects = $stmt->fetchAll();
 ?>
@@ -95,7 +106,7 @@ $subjects = $stmt->fetchAll();
                         ?>
                             <div class="note-item">
                                 <div class="note-content">
-                                    <h3><?= sanitize($note['subject']) ?></h3>
+                                    <h3><?= sanitize($note['subject_name'] ?? 'Unknown Subject') ?></h3>
                                     <p class="note-description"><?= sanitize($note['description']) ?></p>
                                     <div class="note-meta">
                                         <span class="meta-item">📅 <?= date('M d, Y', strtotime($note['upload_date'])) ?></span>

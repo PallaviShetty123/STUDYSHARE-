@@ -12,6 +12,11 @@ define('DB_USER', $env['DB_USER'] ?? 'root');
 define('DB_PASS', $env['DB_PASS'] ?? '');
 define('DB_CHARSET', $env['DB_CHARSET'] ?? 'utf8mb4');
 
+define('BASE_URL', $env['BASE_URL'] ?? '/studyshare');
+define('ASSETS_URL', BASE_URL . '/assets');
+define('UPLOAD_URL', BASE_URL . '/uploads');
+define('PROFILE_URL', UPLOAD_URL . '/profile');
+
 define('UPLOAD_DIR', realpath(__DIR__ . '/../uploads') . '/');
 define('PROFILE_DIR', UPLOAD_DIR . 'profile/');
 define('NOTES_DIR', UPLOAD_DIR . 'notes/');

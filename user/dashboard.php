@@ -262,7 +262,7 @@ function time_ago($timestamp) {
                                         <p class="note-meta">Uploaded by <?= $note['lecturer_name'] ?? 'Admin' ?> • <?= time_ago($note['upload_date']) ?></p>
                                     </div>
                                     <div class="note-actions">
-                                        <a href="download.php?note_id=<?= $note['id'] ?>" class="btn-small btn-download">Download</a>
+                                        <a href="download.php?id=<?= $note['id'] ?>" class="btn-small btn-download">Download</a>
                                     </div>
                                 </div>
                                 <?php

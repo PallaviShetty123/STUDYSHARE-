@@ -24,20 +24,43 @@ if (!$note) {
 $file_path = NOTES_DIR . $note['file_path'];
 
 if (!file_exists($file_path)) {
-    redirect('notes.php');
+    header('HTTP/1.0 404 Not Found');
+    exit('File not found.');
 }
 
-// Record download (optional)
-$stmt = $pdo->prepare('INSERT INTO downloads (roll_no, note_id) VALUES (?, ?)');
-$stmt->execute([$student['roll_no'], $note_id]);
+// Record download with timestamp
+try {
+    $stmt = $pdo->prepare('INSERT INTO downloads (roll_no, note_id, download_date) VALUES (?, ?, NOW())');
+    $stmt->execute([$student['roll_no'], $note_id]);
+} catch (Exception $e) {
+    // Download tracking failed, but continue with file download
+}
 
-// Download file
-header('Content-Type: application/octet-stream');
-header('Content-Disposition: attachment; filename="' . basename($note['file_path']) . '"');
+// Update notes likes/views counter if available
+try {
+    $stmt = $pdo->prepare('UPDATE notes SET likes = IFNULL(likes, 0) + 1 WHERE id = ?');
+    $stmt->execute([$note_id]);
+} catch (Exception $e) {
+    // View counter update failed, continue
+}
+
+// Prepare file for download
+$filename = basename($note['file_path']);
+if (empty($filename) || strpos($filename, '.') === false) {
+    $filename = 'note_' . $note_id . '.pdf';
+}
+
+// Send file headers
+header('Content-Type: application/pdf');
+header('Content-Disposition: attachment; filename="' . $filename . '"');
 header('Content-Length: ' . filesize($file_path));
 header('Pragma: no-cache');
 header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 header('Expires: 0');
 
-readfile($file_path);
+// Send the file
+if (!readfile($file_path)) {
+    header('HTTP/1.0 500 Internal Server Error');
+    exit('Error reading file.');
+}
 exit;

@@ -92,9 +92,9 @@ function setAdminSession($admin)
 function getProfileImage($profile_image)
 {
     if (!empty($profile_image) && file_exists(PROFILE_DIR . $profile_image)) {
-        return '/uploads/profile/' . $profile_image;
+        return PROFILE_URL . '/' . $profile_image;
     }
-    return '/assets/images/default-avatar.png';
+    return ASSETS_URL . '/images/default-avatar.png';
 }
 
 // Check if file upload is valid

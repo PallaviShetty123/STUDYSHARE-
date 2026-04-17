@@ -112,7 +112,7 @@ foreach ($notes as $note) {
                                 <div class="note-date"><?= date('M d, Y', strtotime($note['upload_date'])) ?></div>
                                 
                                 <div class="note-actions">
-                                    <a href="download.php?note_id=<?= $note['id'] ?>" class="note-btn note-download">
+                                    <a href="download.php?id=<?= $note['id'] ?>" class="note-btn note-download">
                                         📥 Download PDF
                                     </a>
                                     <button type="button" class="note-btn note-like <?= $liked_notes[$note['id']] ? 'liked' : '' ?>" 

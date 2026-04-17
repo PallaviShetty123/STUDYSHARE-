@@ -274,8 +274,7 @@ body {
 
 /* Student Layout */
 .student-layout {
-    display: grid;
-    grid-template-columns: 250px 1fr;
+    position: relative;
     min-height: 100vh;
 }
 
@@ -461,7 +460,8 @@ body {
 }
 
 .student-main {
-    margin-left: 280px;
+    margin-left: 300px;
+    width: calc(100% - 300px);
     padding: 40px 48px 60px;
     animation: pageFadeIn 0.7s ease both;
 }

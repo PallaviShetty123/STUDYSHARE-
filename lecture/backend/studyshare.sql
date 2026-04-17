@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS lecturers (
     email VARCHAR(100),
     department VARCHAR(50) NOT NULL,
     subject VARCHAR(100),
+    profile_image VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -41,7 +42,7 @@ CREATE TABLE IF NOT EXISTS students (
 -- Notes Table
 CREATE TABLE IF NOT EXISTS notes (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    subject_id INT NOT NULL,
+    subject_id INT DEFAULT NULL,
     description TEXT NOT NULL,
     file_path VARCHAR(255) NOT NULL,
     department VARCHAR(50) NOT NULL,
@@ -52,6 +53,14 @@ CREATE TABLE IF NOT EXISTS notes (
     uploaded_by INT DEFAULT 0,
     FOREIGN KEY (lecturer_id) REFERENCES lecturers(id) ON DELETE SET NULL,
     FOREIGN KEY (subject_id) REFERENCES subjects(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Admin Table
+CREATE TABLE IF NOT EXISTS admin (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Likes Table
@@ -130,7 +139,7 @@ INSERT IGNORE INTO language_assignments (roll_no, language) VALUES
 ('BCA25057', 'HINDI'),
 ('BCA25060', 'HINDI'),
 ('BCA25029', 'HINDI'),
-('BCA25023', 'HINDI');
+('BCA25023', 'HINDI');see
 
 -- Add student dataset
 INSERT IGNORE INTO students (roll_no, name, dob, department, semester) VALUES

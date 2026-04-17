@@ -46,7 +46,7 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
-.admin-content, .student-content {
+.admin-content, .student-content, .student-main {
     margin-left: 280px;
     flex: 1;
     padding: 2rem;

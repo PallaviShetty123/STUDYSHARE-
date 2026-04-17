@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['note_file'])) {
     $description = sanitize($_POST['description'] ?? '');
     
     if ($subject_id <= 0) {
-        $upload_error = 'Please select a subject.';
+        $upload_error = 'Unable to determine your assigned subject. Please contact admin.';
     } elseif (empty($description)) {
         $upload_error = 'Please enter a description.';
     } elseif ($_FILES['note_file']['error'] !== UPLOAD_ERR_OK) {
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['note_file'])) {
                     $stmt->execute([
                         $subject_id,
                         $description,
-                        'uploads/notes/' . $filename,
+                        $filename,
                         $lecturer['id'],
                         $lecturer['department'],
                         4  // Default semester
@@ -68,10 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['note_file'])) {
     }
 }
 
-// Get all subjects
-$stmt = $pdo->prepare('SELECT * FROM subjects ORDER BY subject_name');
-$stmt->execute();
-$subjects = $stmt->fetchAll();
+// Get lecturer subject details by assigned subject name
+$stmt = $pdo->prepare('SELECT * FROM subjects WHERE subject_name = ? LIMIT 1');
+$stmt->execute([$lecturer['subject']]);
+$lecturer_subject = $stmt->fetch();
 
 // Get lecturer's notes
 $stmt = $pdo->prepare('
@@ -104,22 +104,21 @@ $lecturer_notes = $stmt->fetchAll();
         }
 
         .lecturer-layout {
-            display: grid;
-            grid-template-columns: 250px 1fr;
+            display: flex;
             min-height: 100vh;
+            background-color: #f1f5f9;
         }
 
         .lecturer-sidebar {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 30px 20px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            height: 100vh;
             width: 250px;
+            min-height: 100vh;
             overflow-y: auto;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar-brand {
@@ -138,6 +137,7 @@ $lecturer_notes = $stmt->fetchAll();
 
         .sidebar-nav {
             list-style: none;
+            margin-bottom: 1.5rem;
         }
 
         .nav-item {
@@ -145,20 +145,20 @@ $lecturer_notes = $stmt->fetchAll();
             align-items: center;
             padding: 15px;
             margin-bottom: 10px;
-            border-radius: 8px;
+            border-radius: 12px;
             color: white;
             text-decoration: none;
-            transition: all 0.3s;
-            opacity: 0.9;
+            transition: all 0.25s ease;
+            opacity: 0.95;
         }
 
         .nav-item:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
             opacity: 1;
         }
 
         .nav-item.active {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.18);
             opacity: 1;
         }
 
@@ -168,10 +168,9 @@ $lecturer_notes = $stmt->fetchAll();
         }
 
         .sidebar-footer {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .lecturer-info {
@@ -205,124 +204,216 @@ $lecturer_notes = $stmt->fetchAll();
         .lecturer-main {
             margin-left: 250px;
             padding: 40px;
+            min-height: 100vh;
         }
 
         .lecturer-header {
-            margin-bottom: 40px;
+            margin-bottom: 32px;
+        }
+
+        .dashboard-summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 36px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 24px;
+            border-radius: 18px;
+            box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .subject-card-wrapper {
+            margin-bottom: 36px;
+        }
+
+        .subject-card {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #5566f2 0%, #8f9eff 45%, #c4d5ff 100%);
+            border-radius: 28px;
+            padding: 32px 32px;
+            box-shadow: 0 24px 48px rgba(37, 99, 235, 0.18);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            animation: floatCard 8s ease-in-out infinite;
+        }
+
+        .subject-card::before,
+        .subject-card::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .subject-card::before {
+            right: -80px;
+            top: -80px;
+            width: 220px;
+            height: 220px;
+            background: rgba(255, 255, 255, 0.22);
+            animation: drift 10s ease-in-out infinite;
+        }
+
+        .subject-card::after {
+            left: -60px;
+            bottom: -60px;
+            width: 180px;
+            height: 180px;
+            background: rgba(107, 119, 255, 0.18);
+            animation: driftReverse 12s ease-in-out infinite;
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0); opacity: 0.8; }
+            50% { transform: translate(18px, 12px); opacity: 0.6; }
+            100% { transform: translate(0, 0); opacity: 0.8; }
+        }
+
+        @keyframes driftReverse {
+            0% { transform: translate(0, 0); opacity: 0.75; }
+            50% { transform: translate(-14px, -20px); opacity: 0.55; }
+            100% { transform: translate(0, 0); opacity: 0.75; }
+        }
+
+        .subject-card-content {
+            position: relative;
+            z-index: 1;
+            max-width: 70%;
+        }
+
+        .subject-card-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            border-radius: 999px;
+            background: rgba(99, 102, 241, 0.12);
+            color: #4f46e5;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .subject-card-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #0f172a;
+            margin-bottom: 0.75rem;
+        }
+
+        .subject-card-meta {
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        .ppt-badge {
+            position: relative;
+            z-index: 1;
+            min-width: 140px;
+            padding: 18px 22px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #ff9a8b 0%, #ff6b6b 100%);
+            color: white;
+            font-weight: 700;
+            text-align: center;
+            box-shadow: 0 16px 30px rgba(255, 107, 107, 0.25);
+        }
+
+        .ppt-badge small {
+            display: block;
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        .summary-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: #475569;
+        }
+
+        .summary-card .summary-value {
+            font-size: 2.1rem;
+            color: #1f2937;
+            font-weight: 700;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .dashboard-grid.full-width {
+            grid-template-columns: 1fr;
+        }
+
+        .card-panel {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .upload-section,
+        .notes-section {
+            background: transparent;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .upload-section h2,
+        .notes-section h2 {
+            margin-bottom: 18px;
+        }
+
+        .btn-delete {
+            padding: 8px 14px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 1024px) {
+            .lecturer-main {
+                margin-left: 0;
+                padding: 24px;
+            }
+
+            .dashboard-summary {
+                grid-template-columns: repeat(2, minmax(180px, 1fr));
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lecturer-sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+            }
+
+            .sidebar-footer {
+                position: static;
+            }
         }
 
         .lecturer-header h1 {
             color: #2c3e50;
             font-size: 32px;
             margin-bottom: 5px;
-        }
-
-        .upload-section {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 40px;
-        }
-
-        .upload-section h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-
-        .alert {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-error {
-            background-color: #fadbd8;
-            color: #c0392b;
-            border: 1px solid #e74c3c;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ecf0f1;
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: inherit;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .btn-upload {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.3s;
-            font-size: 16px;
-        }
-
-        .btn-upload:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-upload:active {
-            transform: translateY(0);
-        }
-
-        .notes-section {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .notes-section h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: 20px;
         }
 
         .notes-table {
@@ -382,30 +473,6 @@ $lecturer_notes = $stmt->fetchAll();
             padding: 40px;
             color: #7f8c8d;
         }
-
-        @media (max-width: 1024px) {
-            .lecturer-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .lecturer-sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-            }
-
-            .lecturer-main {
-                margin-left: 0;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar-footer {
-                position: static;
-            }
-        }
     </style>
 </head>
 <body>
@@ -420,6 +487,9 @@ $lecturer_notes = $stmt->fetchAll();
             <nav class="sidebar-nav">
                 <a href="dashboard.php" class="nav-item active">
                     <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="profile.php" class="nav-item">
+                    <span class="icon">👤</span> Profile
                 </a>
             </nav>
 
@@ -437,57 +507,88 @@ $lecturer_notes = $stmt->fetchAll();
             <!-- Header -->
             <div class="lecturer-header">
                 <h1>Welcome, <?= sanitize($lecturer['name']) ?>! 👋</h1>
-                <p>Upload and manage your course materials</p>
+                <p>Upload and manage your course materials from one dashboard.</p>
             </div>
 
-            <!-- Upload Section -->
-            <div class="upload-section">
-                <h2>📤 Upload New Note</h2>
-
-                <?php if ($upload_message): ?>
-                    <div class="alert alert-success">
-                        <?= $upload_message ?>
+            <div class="dashboard-summary">
+                <div class="summary-card">
+                    <h3>Assigned Subject</h3>
+                    <div class="summary-value"><?= sanitize($lecturer_subject['subject_name'] ?? $lecturer['subject'] ?? 'Not assigned') ?></div>
+                </div>
+                <div class="summary-card">
+                    <h3>Total Notes Uploaded</h3>
+                    <div class="summary-value"><?= count($lecturer_notes) ?></div>
+                </div>
+                <div class="summary-card">
+                    <h3>Latest Upload</h3>
+                    <div class="summary-value">
+                        <?php if (!empty($lecturer_notes)): ?>
+                            <?= date('M d, Y', strtotime($lecturer_notes[0]['upload_date'])) ?>
+                        <?php else: ?>
+                            N/A
+                        <?php endif; ?>
                     </div>
-                <?php endif; ?>
+                </div>
+            </div>
 
-                <?php if ($upload_error): ?>
-                    <div class="alert alert-error">
-                        <?= $upload_error ?>
+            <div class="subject-card-wrapper">
+                <div class="subject-card">
+                    <div class="subject-card-content">
+                        <div class="subject-card-label">Assigned Subject</div>
+                        <h2 class="subject-card-title"><?= sanitize($lecturer_subject['subject_name'] ?? $lecturer['subject']) ?></h2>
+                        <p class="subject-card-meta">
+                            <?= sanitize($lecturer_subject['subject_code'] ?? '') ?> • <?= sanitize($lecturer['department']) ?>
+                        </p>
                     </div>
-                <?php endif; ?>
+                    <div class="subject-card-meta" style="text-align:right; font-size:0.95rem; color:#eef2ff;">
+                        <strong>Static subject</strong>
+                        <br>
+                        <span style="opacity:0.85;">Managed by admin</span>
+                    </div>
+                </div>
+            </div>
 
-                <form method="POST" enctype="multipart/form-data">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="subject_id">Subject *</label>
-                            <select id="subject_id" name="subject_id" required>
-                                <option value="">Select a subject</option>
-                                <?php foreach ($subjects as $subject): ?>
-                                    <option value="<?= $subject['id'] ?>">
-                                        <?= sanitize($subject['subject_name']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+            <div class="dashboard-grid">
+                <div class="card-panel upload-section">
+                    <h2>📤 Upload New Note</h2>
+
+                    <?php if ($upload_message): ?>
+                        <div class="alert alert-success">
+                            <?= $upload_message ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($upload_error): ?>
+                        <div class="alert alert-error">
+                            <?= $upload_error ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="subject_id" value="<?= intval($lecturer_subject['id'] ?? 0) ?>">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <input type="text" value="<?= sanitize($lecturer_subject['subject_name'] ?? $lecturer['subject']) ?>" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="note_file">PDF File *</label>
+                                <input type="file" id="note_file" name="note_file" accept=".pdf" required>
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="note_file">PDF File *</label>
-                            <input type="file" id="note_file" name="note_file" accept=".pdf" required>
+                            <label for="description">Description *</label>
+                            <textarea id="description" name="description" required placeholder="Enter note title or description..."></textarea>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="description">Description *</label>
-                        <textarea id="description" name="description" required placeholder="Enter note title or description..."></textarea>
-                    </div>
+                        <button type="submit" class="btn-upload">Upload Note</button>
+                    </form>
+                </div>
 
-                    <button type="submit" class="btn-upload">Upload Note</button>
-                </form>
-            </div>
-
-            <!-- Notes List Section -->
-            <div class="notes-section">
-                <h2>📚 Your Uploaded Notes (<?= count($lecturer_notes) ?>)</h2>
+                <div class="card-panel notes-section">
+                    <h2>📚 Your Uploaded Notes (<?= count($lecturer_notes) ?>)</h2>
 
                 <?php if ($lecturer_notes): ?>
                     <table class="notes-table">
@@ -525,6 +626,7 @@ $lecturer_notes = $stmt->fetchAll();
                         <p>📝 No notes uploaded yet. Start by uploading your first note!</p>
                     </div>
                 <?php endif; ?>
+                </div>
             </div>
         </main>
     </div>

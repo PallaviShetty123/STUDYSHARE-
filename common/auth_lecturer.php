@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/functions.php';
 
 /**
  * Check if a lecturer is logged in
@@ -43,6 +44,6 @@ function setLecturerSession($lecturer) {
  */
 function lecturerLogout() {
     session_destroy();
-    redirect('/lecture/login.php');
+    redirect('login.php');
 }
 ?>

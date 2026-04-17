@@ -1,124 +1,145 @@
 /* Subject Cards - Grid Style */
 .subjects-container {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    padding: 30px 20px;
-    margin: 30px auto 0;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+    gap: 28px;
+    padding: 30px 0;
+    margin: 30px 0;
     width: 100%;
-    max-width: 1000px;
 }
 
 .subject-card-wrapper {
     width: 100%;
+    height: 100%;
 }
 
 .subject-card {
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.1);
-    transition: all 0.35s ease;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+    transition: all 0.3s ease;
     text-decoration: none;
     color: inherit;
     background: white;
-    border: 1px solid rgba(15, 23, 42, 0.06);
+    border: none;
 }
 
 .subject-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 28px 80px rgba(15, 23, 42, 0.14);
+    transform: translateY(-8px);
+    box-shadow: 0 32px 80px rgba(15, 23, 42, 0.2);
 }
 
 .subject-card-header {
-    padding: 24px 28px;
+    padding: 32px 28px;
     color: white;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    min-height: 110px;
+    align-items: flex-start;
+    height: 200px;
+    position: relative;
+    min-height: 200px;
 }
 
 .subject-icon {
-    font-size: 28px;
+    font-size: 40px;
     opacity: 0.95;
+    margin-bottom: 8px;
 }
 
 .subject-type-badge {
-    background: rgba(255, 255, 255, 0.22);
-    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.25);
+    padding: 6px 12px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
+    position: absolute;
+    top: 16px;
+    right: 16px;
 }
 
 .subject-card-body {
     padding: 24px 28px;
-    display: grid;
-    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     background: white;
+    flex-grow: 1;
+    justify-content: flex-start;
 }
 
 .subject-title {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 800;
     color: #111827;
     margin: 0;
-    line-height: 1.2;
+    line-height: 1.4;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
 }
 
 .subject-code {
-    font-size: 14px;
+    font-size: 12px;
     color: #6b7280;
-    font-weight: 600;
+    font-weight: 700;
     margin: 0;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .subject-stats {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
+    margin-top: 6px;
+    font-size: 12px;
 }
 
 .stat-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: #475569;
-    font-weight: 600;
+    gap: 4px;
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 500;
 }
 
 .stat-item .stat-icon {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .subject-card-footer {
-    padding: 20px 28px 28px;
+    padding: 20px 28px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    background: #f9fafb;
+    gap: 12px;
+    background: white;
+    border-top: 1px solid #f0f0f0;
+    margin-top: auto;
 }
 
 .subject-actions {
     display: flex;
-    gap: 14px;
+    gap: 12px;
+    width: 100%;
     flex-wrap: wrap;
 }
 
 .action-btn,
 .subject-action-btn {
-    padding: 12px 18px;
+    padding: 10px 16px;
     border: none;
     border-radius: 12px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -126,6 +147,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-height: 40px;
 }
 
 .action-btn.primary,
@@ -143,6 +168,7 @@
 .subject-action-btn.secondary {
     background: #eef2ff;
     color: #1e3a8a;
+    border: 1.5px solid #c7d2fe;
 }
 
 .action-btn.secondary:hover,
@@ -154,30 +180,32 @@
 .subjects-filters {
     display: flex;
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .filter-btn {
-    padding: 8px 16px;
-    border: 2px solid #e2e8f0;
+    padding: 10px 22px;
+    border: 2px solid #cbd5e1;
     background: white;
-    border-radius: 25px;
+    border-radius: 28px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: #4a5568;
+    color: #475569;
 }
 
 .filter-btn:hover {
-    border-color: #3182ce;
-    color: #3182ce;
+    border-color: #6366f1;
+    color: #6366f1;
+    background: #f0f4ff;
 }
 
 .filter-btn.active {
-    background: #3182ce;
-    border-color: #3182ce;
+    background: #6366f1;
+    border-color: #6366f1;
     color: white;
 }
 
@@ -188,16 +216,22 @@
 }
 
 .section-title {
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 32px;
+    font-weight: 800;
     color: #1a202c;
-    margin: 0 0 8px 0;
+    margin: 0 0 12px 0;
 }
 
 .section-subtitle {
     font-size: 16px;
     color: #718096;
     margin: 0;
+}
+
+/* Subjects Section Container */
+.subjects-section {
+    width: 100%;
+    padding: 0;
 }
 
 /* Quick Actions */
@@ -347,22 +381,69 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    .subjects-container {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+    }
+}
+
 @media (max-width: 768px) {
-    .header-content {
-        flex-direction: column;
-        align-items: stretch;
+    .subjects-container {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+        padding: 20px 16px;
     }
     
-    .search-input {
-        width: 100%;
+    .subject-card-header {
+        min-height: 160px;
+        padding: 24px 20px;
     }
     
+    .subject-card-body {
+        padding: 20px;
+    }
+    
+    .subject-card-footer {
+        padding: 16px 20px 20px;
+    }
+    
+    .subject-title {
+        font-size: 18px;
+    }
+    
+    .section-title {
+        font-size: 26px;
+    }
+    
+    .action-btn,
+    .subject-action-btn {
+        padding: 9px 14px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
     .subjects-container {
         grid-template-columns: 1fr;
+        gap: 16px;
     }
     
-    .actions-grid {
-        grid-template-columns: 1fr;
+    .subjects-filters {
+        gap: 8px;
+    }
+    
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+    
+    .subject-title {
+        font-size: 16px;
+    }
+    
+    .section-title {
+        font-size: 22px;
     }
 }
 
