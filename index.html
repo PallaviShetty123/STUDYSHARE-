@@ -3,35 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyShare - Home</title>
-    <link rel="stylesheet" href="/assets/css/index.css">
+    <title>StudyShare - Share and Learn Smarter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
-    <main class="hero-header">
+    <div class="background-effects">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">StudyShare</span>
+            </a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="user/notes.php" class="nav-link">Explore Notes</a>
+                <a href="user/login.php" class="nav-link">Login</a>
+                <a href="user/register.php" class="btn btn-primary-nav">Get Started</a>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <button class="theme-toggle" aria-label="Toggle theme">
+                <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="hero">
         <div class="hero-content">
-            <span class="hero-eyebrow">Premium study platform</span>
-            <h1>StudyShare for modern teams and students</h1>
-            <p>Elevate your learning experience with SaaS-grade design, instant onboarding, and a polished booking workflow for coaching and sessions.</p>
-            <div class="hero-actions">
-                <a href="user/login.html" class="button">Login</a>
-                <a href="user/register.html" class="button-secondary">Register</a>
-                <a href="user/booking.html" class="button-tertiary">Book a Demo</a>
+            <h1 class="hero-title">
+                Share and Learn <span class="highlight">Smarter</span>
+            </h1>
+            <p class="hero-subtitle">
+                Upload notes, access study materials, and collaborate with students <span class="arabic">بسهولة</span>
+            </p>
+            <div class="hero-buttons">
+                <a href="user/login.php" class="btn btn-primary">
+                    <span class="btn-icon">🔑</span>
+                    Login
+                </a>
+                <a href="user/notes.php" class="btn btn-secondary">
+                    <span class="btn-icon">📖</span>
+                    Browse Notes
+                </a>
             </div>
         </div>
-        <section class="hero-panel">
-            <article class="panel-card">
-                <h2>Fast setup</h2>
-                <p>Launch your study community with premium onboarding and instant access to key features.</p>
-            </article>
-            <article class="panel-card">
-                <h2>Modern UX</h2>
-                <p>A polished interface with glassmorphism, animated details, and startup-grade layout energy.</p>
-            </article>
-            <article class="panel-card">
-                <h2>Smart booking</h2>
-                <p>Built-in premium booking design for mentors, sessions, and study planning with motion-ready interactions.</p>
-            </article>
-        </section>
+
+        <div class="category-cards">
+            <a href="user/notes.php?category=notes" class="category-card card-1">
+                <div class="card-icon">📘</div>
+                <span class="card-text">Notes</span>
+            </a>
+            <a href="user/notes.php?category=books" class="category-card card-2">
+                <div class="card-icon">📚</div>
+                <span class="card-text">Books</span>
+            </a>
+            <a href="user/notes.php?category= videos" class="category-card card-3">
+                <div class="card-icon">🎥</div>
+                <span class="card-text">Video Lectures</span>
+            </a>
+            <a href="user/notes.php?category=pyq" class="category-card card-4">
+                <div class="card-icon">🧠</div>
+                <span class="card-text">Previous Papers</span>
+            </a>
+            <a href="user/notes.php?category=assignments" class="category-card card-5">
+                <div class="card-icon">📝</div>
+                <span class="card-text">Assignments</span>
+            </a>
+        </div>
     </main>
+
+    <section class="features">
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>Quick Access</h3>
+                <p>Instant access to study materials anytime, anywhere</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Easy Sharing</h3>
+                <p>Share your notes with just a few clicks</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Collaborate</h3>
+                <p>Work together with fellow students</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure</h3>
+                <p>Your data is safe with us</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 StudyShare. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            body.classList.toggle('light-mode');
+        });
+
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('active');
+        });
+
+        // Add initial dark mode
+        body.classList.add('dark-mode');
+    </script>
 </body>
 </html>
